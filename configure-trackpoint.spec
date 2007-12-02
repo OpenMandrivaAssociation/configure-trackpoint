@@ -1,18 +1,21 @@
 Name:		configure-trackpoint
-Version:	0.2
-Release:	%mkrel 3
+Version:	0.6
+Release:	%mkrel 1
 Summary:	TrackPoint configuration tool
 URL:		http://tpctl.sourceforge.net/configure-trackpoint.html
 License:	GPL
 Group:		System/Configuration/Hardware
 Source:		http://prdownloads.sourceforge.net/tpctl/%{name}-%{version}.tar.bz2
+Source1:	trackpoint.init
 BuildRoot:	%{_tmppath}/%{name}-%{version}-root
 BuildRequires:	libgnomeui2-devel
 BuildRequires:	ImageMagick desktop-file-utils
+Requires:	rpm-helper
+
 %description
-Configure-trackpoint is a Gnome TrackPoint configuration tool. It uses the
-linux kernel 2.6 TrackPoint driver which at the moment is not in the mainline
-kernel but it is available in the multimedia kernel.
+Configure-trackpoint is a Gnome TrackPoint configuration tool, which
+provides a friendly and descriptive interface to configure various
+TrackPoint device's parameters.
 
 %prep
 %setup -q
@@ -20,10 +23,22 @@ kernel but it is available in the multimedia kernel.
 %build
 %configure
 %make
+# the Icon tag shouldn't have an extension, desktop-* complains
+sed -i~ -e '/^Icon/s/\.png//' configure-trackpoint.desktop
 
 %install
 rm -rf $RPM_BUILD_ROOT
 %makeinstall_std
+# default provided config is useless and very likely bad (wrong device)
+# the user must run the app and save settings to get a working config
+cat <<FIN >%{buildroot}/%{_sysconfdir}/trackpoint/trackpoint.conf
+# This file is manipulated by the configure-trackpoint program, and sourced
+# by %{_initrddir}/trackpoint. Avoid hand editing, it is not guaranteed
+# to work as expected.
+
+FIN
+rm -rf %{buildroot}/{%{_sysconfdir}/init.d,%{_initrddir}/trackpoint}
+cp -p %{SOURCE1} %{buildroot}/%{_initrddir}/trackpoint
 
 mkdir -p %{buildroot}/%{_menudir}
 cat > %{buildroot}/%{_menudir}/%{name} << EOF
@@ -31,7 +46,7 @@ cat > %{buildroot}/%{_menudir}/%{name} << EOF
 command="%{_bindir}/%{name}" \
 needs="X11" \
 icon="%{name}.png" \
-section="Configuration/Hardware" \
+section="System/Configuration/Hardware" \
 title="TrackPoint" \
 longtitle="%{summary}" \
 xdg="true"
@@ -41,7 +56,6 @@ desktop-file-install --vendor="" \
   --remove-category="Application" \
   --remove-category="SystemSetup" \
   --add-category="Settings;HardwareSettings" \
-  --add-category="X-MandrivaLinux-System-Configuration-Hardware" \
   --dir $RPM_BUILD_ROOT%{_datadir}/applications $RPM_BUILD_ROOT%{_datadir}/applications/*
 
 mkdir -p %{buildroot}/{%{_miconsdir},%{_liconsdir}}
@@ -53,6 +67,7 @@ convert -resize 16x16 pixmaps/trackpoint.png %{buildroot}/%{_miconsdir}/%{name}.
 rm -rf $RPM_BUILD_ROOT
 
 %post
+%_post_service trackpoint
 %update_menus
 
 consoleperms=/etc/security/console.perms
@@ -65,11 +80,15 @@ if ! `grep -q "/proc/trackpoint/" $consoleperms` ; then
 EOF
 fi
 
+%preun
+%_preun_service trackpoint
+
 %postun
 %clean_menus
 
 %files
 %defattr(-,root,root)
+%doc AUTHORS ChangeLog
 %{_bindir}/%{name}
 %{_datadir}/pixmaps/%{name}
 %{_menudir}/%{name}
@@ -77,6 +96,6 @@ fi
 %{_liconsdir}/%{name}.png
 %{_miconsdir}/%{name}.png
 %{_datadir}/applications/*.desktop
-
-%doc AUTHORS
+%{_initrddir}/trackpoint
+%config(noreplace) %{_sysconfdir}/trackpoint/trackpoint.conf
 
