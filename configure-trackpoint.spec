@@ -40,17 +40,6 @@ FIN
 rm -rf %{buildroot}/{%{_sysconfdir}/init.d,%{_initrddir}/trackpoint}
 cp -p %{SOURCE1} %{buildroot}/%{_initrddir}/trackpoint
 
-mkdir -p %{buildroot}/%{_menudir}
-cat > %{buildroot}/%{_menudir}/%{name} << EOF
-?package(%{name}): \
-command="%{_bindir}/%{name}" \
-needs="X11" \
-icon="%{name}.png" \
-section="System/Configuration/Hardware" \
-title="TrackPoint" \
-longtitle="%{summary}" \
-xdg="true"
-EOF
 
 desktop-file-install --vendor="" \
   --remove-category="Application" \
@@ -91,7 +80,6 @@ fi
 %doc AUTHORS ChangeLog
 %{_bindir}/%{name}
 %{_datadir}/pixmaps/%{name}
-%{_menudir}/%{name}
 %{_iconsdir}/%{name}.png
 %{_liconsdir}/%{name}.png
 %{_miconsdir}/%{name}.png
