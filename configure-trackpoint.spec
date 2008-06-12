@@ -57,7 +57,9 @@ rm -rf $RPM_BUILD_ROOT
 
 %post
 %_post_service trackpoint
+%if %mdkversion < 200900
 %update_menus
+%endif
 
 consoleperms=/etc/security/console.perms
 if ! `grep -q "/proc/trackpoint/" $consoleperms` ; then
@@ -72,8 +74,10 @@ fi
 %preun
 %_preun_service trackpoint
 
+%if %mdkversion < 200900
 %postun
 %clean_menus
+%endif
 
 %files
 %defattr(-,root,root)
