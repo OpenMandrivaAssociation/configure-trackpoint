@@ -1,6 +1,6 @@
 Name:		configure-trackpoint
 Version:	0.6
-Release:	%mkrel 4
+Release:	%mkrel 5
 Summary:	TrackPoint configuration tool
 URL:		http://tpctl.sourceforge.net/configure-trackpoint.html
 License:	GPL
