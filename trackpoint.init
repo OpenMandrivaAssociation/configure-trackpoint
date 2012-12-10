@@ -1,0 +1,44 @@
+#!/bin/sh
+#
+# chkconfig: 5 20 90
+# description: Initializaes the trackpoint, as configured by configure-trackpoint
+#
+### BEGIN INIT INFO
+# Provides: trackpoint
+# Default-Start: 5
+# Short-Description: Initializaes the trackpoint configuration
+# Description: Initializaes the trackpoint configuration, as configured by configure-trackpoint application.
+### END INIT INFO
+#
+# config:  /etc/trackpoint/trackpoint.conf
+
+. /etc/rc.d/init.d/functions
+
+RETVAL=0
+DEVICE="/dev/input/mice"
+
+case $1 in
+  start|restart|reload|force-reload)
+    echo -n $"(Re-)Initializing the trackpoint configuration:..."
+    RETVAL=$?
+    sleep 2
+    test -e $DEVICE && echo
+    	[ $RETVAL -eq 0 ] && touch /var/lock/subsys/trackpoint && . /etc/trackpoint/trackpoint.conf && exit 0
+    exit 0
+    ;;
+
+  stop)
+    echo -n $"Shutting down trackpoint services: "
+    RETVAL=$?
+    echo
+    [ $RETVAL -eq 0 ] && rm -f /var/lock/subsys/trackpoint
+    exit 0
+    ;;
+  status)
+    status trackpoint
+    ;;
+  *)
+    echo "Usage: $0 {stop|start|restart|reload|force-reload}" >&2
+    exit 1
+    ;;
+esac

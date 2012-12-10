@@ -91,3 +91,50 @@ fi
 %{_initrddir}/trackpoint
 %config(noreplace) %{_sysconfdir}/trackpoint/trackpoint.conf
 
+
+
+%changelog
+* Thu Dec 09 2010 Oden Eriksson <oeriksson@mandriva.com> 0.6-5mdv2011.0
++ Revision: 617412
+- the mass rebuild of 2010.0 packages
+
+* Wed Sep 02 2009 Thierry Vignaud <tv@mandriva.org> 0.6-4mdv2010.0
++ Revision: 424941
+- rebuild
+
+  + Oden Eriksson <oeriksson@mandriva.com>
+    - lowercase ImageMagick
+
+* Wed Jul 23 2008 Thierry Vignaud <tv@mandriva.org> 0.6-3mdv2009.0
++ Revision: 243623
+- rebuild
+- drop old menu
+- kill re-definition of %%buildroot on Pixel's request
+
+  + Pixel <pixel@mandriva.com>
+    - rpm filetriggers deprecates update_menus/update_scrollkeeper/update_mime_database/update_icon_cache/update_desktop_database/post_install_gconf_schemas
+
+  + Olivier Blin <oblin@mandriva.com>
+    - restore BuildRoot
+
+* Sun Dec 02 2007 Gustavo De Nardin <gustavodn@mandriva.com> 0.6-1mdv2008.1
++ Revision: 114395
+- new version 0.6
+- initscript to initialize the trackpoint at system startup
+- some fixes to the menu and desktop entry file
+- added ChangeLog to package documentation
+- updated description, the trackpoint stuff seems to be in mainline kernel now
+
+  + Thierry Vignaud <tv@mandriva.org>
+    - import configure-trackpoint
+
+
+* Tue Sep 12 2006 Emmanuel Andry <eandry@mandriva.org> 0.2-3mdv2007.0
+- add buildrequires desktop-file-utils
+
+* Tue Sep 12 2006 Emmanuel Andry <eandry@mandriva.org> 0.2-2mdv2007.0
+- %%mkrel
+- xdg menu
+
+* Mon Mar 21 2005 Michael Reinsch <mr@uue.org> 0.2-1mdk
+- first package for Mandrakelinux
