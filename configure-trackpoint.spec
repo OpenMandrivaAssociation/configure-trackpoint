@@ -1,13 +1,12 @@
 Name:		configure-trackpoint
 Version:	0.6
-Release:	%mkrel 5
+Release:	6
 Summary:	TrackPoint configuration tool
 URL:		http://tpctl.sourceforge.net/configure-trackpoint.html
 License:	GPL
 Group:		System/Configuration/Hardware
 Source:		http://prdownloads.sourceforge.net/tpctl/%{name}-%{version}.tar.bz2
 Source1:	trackpoint.init
-BuildRoot:	%{_tmppath}/%{name}-%{version}-root
 BuildRequires:	pkgconfig(libgnomeui-2.0)
 BuildRequires:	imagemagick desktop-file-utils
 Requires:	rpm-helper
