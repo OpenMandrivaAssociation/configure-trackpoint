@@ -2,7 +2,7 @@ Name:		configure-trackpoint
 Version:	0.6
 Release:	7
 Summary:	TrackPoint configuration tool
-URL:		http://tpctl.sourceforge.net/configure-trackpoint.html
+URL:		https://tpctl.sourceforge.net/configure-trackpoint.html
 License:	GPL
 Group:		System/Configuration/Hardware
 Source:		http://prdownloads.sourceforge.net/tpctl/%{name}-%{version}.tar.bz2
