@@ -7,6 +7,11 @@ License:	GPL
 Group:		System/Configuration/Hardware
 Source:		http://prdownloads.sourceforge.net/tpctl/%{name}-%{version}.tar.bz2
 Source1:	trackpoint.init
+BuildRequires:	autoconf
+BuildRequires:	automake
+BuildRequires:	libtool-base
+BuildRequires:	slibtool
+BuildRequires:	make
 BuildRequires:	pkgconfig(libgnomeui-2.0)
 BuildRequires:	imagemagick desktop-file-utils
 Requires:	rpm-helper
